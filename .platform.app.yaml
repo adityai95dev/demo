@@ -1,0 +1,31 @@
+# .platform.app.yaml
+name: app
+type: php:8.3
+build:
+  flavor: composer
+
+web:
+  locations:
+    "/":
+      root: "public"
+      index: "index.php"
+      passthru: "/index.php"
+
+mounts:
+  "/var": "shared:files/var"
+  "/public/var": "shared:files/public-var"
+  "/public/static": "shared:files/public-static"
+
+disk: 2048
+
+relationships:
+  database: "db:mysql"
+  redis: "redis:redis"
+
+variables:
+  env:
+    APP_ENV: "prod"
+    PIMCORE_INSTALL_MYSQL: "0"
+    PIMCORE_INSTALL_ADMIN_USER: "admin"
+    PIMCORE_INSTALL_ADMIN_PASSWORD: "admin"
+
