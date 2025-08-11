@@ -23,7 +23,19 @@ relationships:
 
 variables:
   env:
-    APP_ENV: "Dev"
-    PIMCORE_INSTALL_MYSQL: "0"
+    APP_ENV: "prod"
+    PIMCORE_INSTALL_MYSQL: "1"
     PIMCORE_INSTALL_ADMIN_USER: "admin"
     PIMCORE_INSTALL_ADMIN_PASSWORD: "admin"
+
+hooks:
+  build: |
+    set -e
+    composer install --no-interaction --prefer-dist --optimize-autoloader
+
+  deploy: |
+    set -e
+    echo "Running Pimcore install..."
+    php bin/console pimcore:install --no-interaction --ignore-existing-config || true
+    php bin/console cache:clear
+
