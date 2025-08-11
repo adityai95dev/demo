@@ -1,6 +1,6 @@
 # .platform.app.yaml
 name: app
-type: php:8.2   # yahan 8.3 ko 8.2 se replace karo
+type: php:8.2
 build:
   flavor: composer
 
@@ -8,7 +8,7 @@ web:
   locations:
     "/":
       root: "public"
-      index: "index.php"
+      index: ["index.php"]
       passthru: "/index.php"
 
 mounts:
