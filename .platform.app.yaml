@@ -29,11 +29,11 @@ variables:
 hooks:
   build: |
     set -e
-    echo "Installing dependencies (skipping Pimcore DB setup scripts)..."
+    echo "Installing dependencies without triggering DB setup..."
     composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
   deploy: |
     set -e
-    echo "Clearing cache..."
+    echo "Clearing Symfony/Pimcore cache..."
     php bin/console cache:clear || true
-    echo "Skipping Pimcore DB installation because no MySQL configured."
+    echo "Skipping Pimcore DB installation (no database configured)."
