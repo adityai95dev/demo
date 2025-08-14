@@ -18,13 +18,11 @@ mounts:
 disk: 2048
 
 relationships:
-  database: "db:mysql"
   redis: "redis:redis"
 
 variables:
   env:
     APP_ENV: "prod"
-    PIMCORE_INSTALL_MYSQL: "1"
     PIMCORE_INSTALL_ADMIN_USER: "admin"
     PIMCORE_INSTALL_ADMIN_PASSWORD: "admin"
 
@@ -35,7 +33,5 @@ hooks:
 
   deploy: |
     set -e
-    echo "Running Pimcore install..."
-    php bin/console pimcore:install --no-interaction --ignore-existing-config || true
+    echo "Running Pimcore install (without MySQL)..."
     php bin/console cache:clear
-
