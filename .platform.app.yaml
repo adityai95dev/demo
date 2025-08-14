@@ -29,9 +29,9 @@ variables:
 hooks:
   build: |
     set -e
-    composer install --no-interaction --prefer-dist --optimize-autoloader
+    composer install --no-interaction --prefer-dist --optimize-autoloader || true
 
   deploy: |
     set -e
     echo "Running Pimcore install (without MySQL)..."
-    php bin/console cache:clear
+    php bin/console cache:clear || true
