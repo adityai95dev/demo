@@ -25,6 +25,7 @@ variables:
     APP_ENV: "prod"
     PIMCORE_INSTALL_ADMIN_USER: "admin"
     PIMCORE_INSTALL_ADMIN_PASSWORD: "admin"
+    DATABASE_URL: "mysql://fake:fake@127.0.0.1:3306/fakedb" # Dummy DB URL to skip MySQL
 
 hooks:
   build: |
