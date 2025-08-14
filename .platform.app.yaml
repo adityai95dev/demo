@@ -3,6 +3,8 @@ type: php:8.2
 build:
   flavor: composer
 
+disk: 2048
+
 web:
   locations:
     "/":
@@ -15,23 +17,25 @@ mounts:
   "/public/var": "shared:files/public-var"
   "/public/static": "shared:files/public-static"
 
-disk: 2048
+relationships:
+  database: "db:mysql"
+  redis: "redis:redis"
 
 variables:
   env:
     APP_ENV: "prod"
     PIMCORE_INSTALL_ADMIN_USER: "admin"
     PIMCORE_INSTALL_ADMIN_PASSWORD: "admin"
-    DATABASE_URL: "mysql://fake:fake@127.0.0.1:3306/fakedb" # Dummy DB URL to bypass connection
 
 hooks:
   build: |
     set -e
-    echo "Installing dependencies without triggering DB or Redis setup..."
-    composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+    echo "Installing dependencies..."
+    composer install --no-interaction --prefer-dist --optimize-autoloader
 
   deploy: |
     set -e
     echo "Clearing Symfony/Pimcore cache..."
     php bin/console cache:clear || true
-    echo "Skipping Pimcore DB & Redis installation (no services configured)."
+    echo "Running Pimcore install..."
+    php bin/console pimcore:install --no-interaction
